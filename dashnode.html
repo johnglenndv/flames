@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Node Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 20px; 
+      background-color: #fafafa;
+    }
+    #map { 
+      height: 300px; 
+      margin-top: 20px; 
+      border-radius: 10px; 
+    }
+    .info { 
+      background: #f3f3f3; 
+      padding: 15px; 
+      border-radius: 8px; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex; 
+      justify-content: space-between;
+      align-items: center;
+    }
+    .details {
+      flex: 1;
+    }
+    .logout-btn {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .logout-btn:hover {
+      background-color: #c9302c;
+    }
+    .timestamp {
+      margin-top: 8px;
+      color: #555;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="info">
+    <div class="details">
+      <h2>Node Dashboard</h2>
+      <p><b>Node ID:</b> <span id="nodeId"></span></p>
+      <p><b>Temperature:</b> <span id="temp"></span> °C</p>
+      <p><b>Humidity:</b> <span id="hum"></span> %</p>
+      <p><b>Latitude:</b> <span id="lat"></span></p>
+      <p><b>Longitude:</b> <span id="lon"></span></p>
+      <p class="timestamp" id="updateTime">Last updated: --</p>
+    </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const nodeId = new URLSearchParams(window.location.search).get("node_id");
+    document.getElementById("nodeId").textContent = nodeId;
+
+    const map = L.map('map').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    const marker = L.marker([0, 0]).addTo(map);
+
+    let lastUpdateTime = null;
+    let timerInterval = null;
+
+    function updateTimer() {
+      if (!lastUpdateTime) return;
+      const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
+      document.getElementById("updateTime").textContent = `Last updated: ${secondsAgo} seconds ago`;
+    }
+
+    async function fetchLatestData() {
+      try {
+        const res = await fetch(`https://flames-server.onrender.com/api/node/${nodeId}/latest`);
+        if (!res.ok) return console.log("No data yet");
+        const data = await res.json();
+
+        document.getElementById("temp").textContent = data.temperature.toFixed(2);
+        document.getElementById("hum").textContent = data.humidity.toFixed(2);
+        document.getElementById("lat").textContent = data.latitude;
+        document.getElementById("lon").textContent = data.longitude;
+
+        marker.setLatLng([data.latitude, data.longitude]);
+        map.setView([data.latitude, data.longitude], 15);
+
+        // Update the "last updated" timer
+        lastUpdateTime = Date.now();
+        updateTimer();
+
+        if (!timerInterval) {
+          timerInterval = setInterval(updateTimer, 1000);
+        }
+
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    }
+
+    function logout() {
+      // Clear stored login/session data
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Optional: Clear cookies (for simple cases)
+      document.cookie.split(";").forEach(cookie => {
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+      });
+
+      // Redirect to login page
+      window.location.href = "index.html"; // adjust to your login page
+    }
+
+    fetchLatestData();
+    setInterval(fetchLatestData, 5000);
+  </script>
+</body>
+</html>
