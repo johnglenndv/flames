@@ -15,7 +15,7 @@ async function registerUser(event) {
     role: form.role.value
   };
 
-  const res = await fetch("${API_BASE}/register", {
+  const res = await fetch("https://flames-8mk6.onrender.com/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
@@ -37,7 +37,7 @@ async function loginUser(event) {
     password: form.password.value
   };
 
-  const res = await fetch("${API_BASE}/login", {
+  const res = await fetch("https://flames-8mk6.onrender.com/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
