@@ -48,6 +48,9 @@ async function loginUser(event) {
     // Save user info (optional — to show in profile)
     localStorage.setItem("user", JSON.stringify(user));
 
+    // ✅ Mark user as logged in
+    localStorage.setItem("loggedIn", "true");
+
     // ✅ Redirect to profile page
     const url = new URL("flames/dashnode.html", window.location.origin);
     url.searchParams.set("node_id", user.node_id);
