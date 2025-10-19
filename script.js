@@ -1,4 +1,4 @@
-const API_BASE = "https://flames-8mk6.onrender.com";
+const API_BASE = "https://flames-server.onrender.com";
 
 function showForm(formId) {
     document.querySelectorAll(".form-box").forEach(form => form.classList.remove("active"));
