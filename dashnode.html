@@ -47,6 +47,13 @@
   </style>
 </head>
 <body>
+   <script>
+    // Redirect to login if not logged in
+    if (!localStorage.getItem("loggedIn")) {
+      window.location.href = "index.html"; // or your login page path
+    }
+  </script>
+  
   <div class="info">
     <div class="details">
       <h2>Node Dashboard</h2>
