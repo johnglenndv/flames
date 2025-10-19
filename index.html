@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lan="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width inital-scale=1.0">
+        <title>Full Stack Loggin and Reister Form </title>
+        <link rel="stylesheet" href="/styles/style.css">
+
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div class="form-box active" id="login-form">
+                <form onsubmit="loginUser(event)">
+                    <h2>Login</h2>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="Submit" name="login">Login</button>
+                    <p>Don't Have account? <a href="#" onclick="showForm('register-form')"> Register</a></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="form-box" id="register-form">
+                <form onsubmit="registerUser(event)">
+                    <h2>Register</h2>
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <select name="role" required>
+                        <option value="">--Select Role--</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <button type="Submit" name="register"> Register </button>
+                    <p>Already Have account? <a href="#" onclick="showForm('login-form')"> Login</a></p>
+                </form>
+            </div>
+        
+            <script src="script.js"></script>
+
+    </body>
+
+</html>
