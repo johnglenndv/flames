@@ -9,10 +9,9 @@ async function registerUser(event) {
   event.preventDefault();
   const form = event.target;
   const data = {
-    name: form.name.value,
-    email: form.email.value,
+    username: form.username.value,
     password: form.password.value,
-    role: form.role.value
+    node_id: form.node_id.value
   };
 
   const res = await fetch("https://flames-server.onrender.com/register", {
@@ -33,7 +32,7 @@ async function loginUser(event) {
   event.preventDefault();
   const form = event.target;
   const data = {
-    email: form.email.value,
+    username: form.username.value,
     password: form.password.value
   };
 

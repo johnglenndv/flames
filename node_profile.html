@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Node Profile</title>
+  <style>
+    body { font-family: Arial; background: #f8f8f8; text-align: center; }
+    .card {
+      width: 400px; margin: 40px auto; padding: 20px;
+      background: #fff; border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    iframe { width: 100%; height: 300px; border: none; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Node ID: <span id="node_id"></span></h2>
+    <p>Temperature: <span id="temp"></span> °C</p>
+    <p>Humidity: <span id="hum"></span> %</p>
+    <p>Latitude: <span id="lat"></span></p>
+    <p>Longitude: <span id="lon"></span></p>
+    <iframe id="map" loading="lazy"></iframe>
+  </div>
+
+  <script>
+    // Fetch from your Python API (Flask or PHP)
+    fetch(" https://flames-server.onrender.com")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("node_id").textContent = data.node_id;
+        document.getElementById("temp").textContent = data.temperature;
+        document.getElementById("hum").textContent = data.humidity;
+        document.getElementById("lat").textContent = data.latitude;
+        document.getElementById("lon").textContent = data.longitude;
+
+        const lat = data.latitude, lon = data.longitude;
+        document.getElementById("map").src =
+          `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+      });
+  </script>
+</body>
+</html>
