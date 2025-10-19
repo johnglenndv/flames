@@ -1,3 +1,5 @@
+const API_BASE = "https://flames-8mk6.onrender.com";
+
 function showForm(formId) {
     document.querySelectorAll(".form-box").forEach(form => form.classList.remove("active"));
     document.getElementById(formId).classList.add("active");
@@ -13,7 +15,7 @@ async function registerUser(event) {
     role: form.role.value
   };
 
-  const res = await fetch("http://localhost:5000/register", {
+  const res = await fetch("${API_BASE}/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
@@ -35,7 +37,7 @@ async function loginUser(event) {
     password: form.password.value
   };
 
-  const res = await fetch("http://localhost:5000/login", {
+  const res = await fetch("${API_BASE}/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
