@@ -49,7 +49,10 @@ async function loginUser(event) {
     localStorage.setItem("user", JSON.stringify(user));
 
     // ✅ Redirect to profile page
-    window.location.href = `dashboard.html?node_id=${user.node_id}`;
+    const url = new URL("dashboard.html", window.location.origin);
+    url.searchParams.set("node_id", user.node_id);
+    window.location.href = url;
+
   } else {
     const error = await res.text();
     alert(error);
