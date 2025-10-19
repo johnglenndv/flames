@@ -49,7 +49,7 @@ async function loginUser(event) {
     localStorage.setItem("user", JSON.stringify(user));
 
     // ✅ Redirect to profile page
-    const url = new URL("flames/dashboard.html", window.location.origin);
+    const url = new URL("flames/dashnode.html", window.location.origin);
     url.searchParams.set("node_id", user.node_id);
     window.location.href = url;
 
