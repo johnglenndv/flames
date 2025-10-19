@@ -45,7 +45,6 @@ async function loginUser(event) {
 
   if (res.ok) {
     const user = await res.json();
-    alert(`Welcome, ${user.name}!`);
 
     // Save user info (optional — to show in profile)
     localStorage.setItem("user", JSON.stringify(user));
